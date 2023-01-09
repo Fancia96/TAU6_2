@@ -1,4 +1,4 @@
-package MockExamples.MockExamples;
+package org.example;
 
 public interface Car {
     boolean needsFuel();

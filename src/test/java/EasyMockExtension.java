@@ -1,4 +1,4 @@
-package MockExamples.MockExamples;
+
 
 import org.easymock.EasyMockSupport;
 import org.junit.jupiter.api.extension.ExtensionContext;

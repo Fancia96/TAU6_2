@@ -1,4 +1,4 @@
-package MockExamples.MockExamples;
+package org.example;
 
 import java.rmi.UnknownHostException;
 

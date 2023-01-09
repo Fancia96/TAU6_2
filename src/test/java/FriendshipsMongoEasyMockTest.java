@@ -1,9 +1,10 @@
-package MockExamples.MockExamples;
-
 
 import org.easymock.Mock;
 import org.easymock.MockType;
 import org.easymock.TestSubject;
+import org.example.FriendsCollection;
+import org.example.FriendshipsMongo;
+import org.example.Person;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 

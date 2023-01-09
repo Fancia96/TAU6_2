@@ -1,6 +1,7 @@
-package MockExamples.MockExamples;
+;
 
 import org.easymock.EasyMock;
+import org.example.Car;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
