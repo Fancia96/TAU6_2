@@ -41,4 +41,34 @@ public class CarEasyTest {
             myFerrari.needsFuel();
         });
     }
+    @Test
+    public void testIfCarNeedsFuelWhenHeNeeds(){
+        EasyMock.expect(myFerrari.needsFuel()).andReturn(true);
+        EasyMock.replay(myFerrari);
+        assertTrue(myFerrari.needsFuel());
+    }
+
+    @Test
+    public void testIfCarNeedsFuel(){
+        EasyMock.expect(myFerrari.needsFuel()).andReturn(false);
+        EasyMock.replay(myFerrari);
+        assertFalse(myFerrari.needsFuel());
+    }
+
+    @Test
+    void testEngineTemperature() {
+        EasyMock.expect(myFerrari.getEngineTemperature()).andReturn(70.0);
+        EasyMock.replay(myFerrari);
+        assertEquals(myFerrari.getEngineTemperature(), 70.0);
+    }@Test
+
+    public void testCarIsNotNull(){
+        assertNotNull(myFerrari);
+    }
+
+    @Test
+    public void testNotTrowExceptionWhileDrivingToSomewhere(){
+        assertDoesNotThrow(() -> myFerrari.driveTo("Gdańsk"));
+    }
+
 }
