@@ -1,10 +1,14 @@
 
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 import org.easymock.Mock;
 import org.easymock.MockType;
 import org.easymock.TestSubject;
 import org.example.FriendsCollection;
 import org.example.FriendshipsMongo;
 import org.example.Person;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -37,7 +41,8 @@ public class FriendshipsMongoEasyMockTest {
 	//A nice mock expects recorded calls in any order and returning null for other calls
 	@Mock(type = MockType.NICE)
 	FriendsCollection friends;
-	
+
+
 	@Test
 	public void mockingWorksAsExpected(){
 		Person joe = new Person("Joe");

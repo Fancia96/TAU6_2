@@ -43,5 +43,13 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.objenesis:objenesis:3.0.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:3.12.1" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:3.10.1" level="project" />
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+        testImplementation 'org.assertj:assertj-core:3.11.1'
+        testImplementation group: 'org.easymock', name: 'easymock', version: '5.1.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+        implementation group: 'org.jongo', name: 'jongo', version: '1.5.1'
+        implementation group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.11'}
+
   </component>
 </module>
