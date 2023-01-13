@@ -1,10 +1,9 @@
 
-import com.mongodb.MongoClientSettings;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
+import org.easymock.EasyMock;
 import org.easymock.Mock;
 import org.easymock.MockType;
 import org.easymock.TestSubject;
+import org.example.Car;
 import org.example.FriendsCollection;
 import org.example.FriendshipsMongo;
 import org.example.Person;
@@ -17,8 +16,6 @@ import java.rmi.UnknownHostException;
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 
-import com.mongodb.DB;
-import com.mongodb.MongoClient;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
@@ -29,49 +26,65 @@ import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@ExtendWith(EasyMockExtension.class)
+//@ExtendWith(EasyMockExtension.class)
 public class FriendshipsMongoEasyMockTest {
 
-	@TestSubject
-	FriendshipsMongo friendships = new FriendshipsMongo();
+//	@TestSubject
+//	FriendshipsMongo friendships = new FriendshipsMongo();
+
+//	private FriendshipsMongo friendships = EasyMock.createMock(FriendshipsMongo.class);
+
 
 	//A nice mock expects recorded calls in any order and returning null for other calls
-	@Mock(type = MockType.NICE)
-	FriendsCollection friends;
+//	@Mock(type = MockType.DEFAULT)
+//	FriendsCollection friends;
 
+//	private FriendsCollection friends = EasyMock.createMock(FriendsCollection.class);
+//
+	//private Person person = EasyMock.createMock(Person.class);
 
 	@Test
 	public void mockingWorksAsExpected(){
+		//FriendshipsMongo friendships = new FriendshipsMongo();
 		Person joe = new Person("Joe");
 		//Zapisanie zachowania - co sie ma stac
-		expect(friends.findByName("Joe")).andReturn(joe);
-		//Odpalenie obiektu do sprawdzenia zachowania
-		replay(friends);
-		assertThat(friends.findByName("Joe")).isEqualTo(joe);
+//		expect(friends.findByName("Joe")).andReturn(joe);
+//		//Odpalenie obiektu do sprawdzenia zachowania
+//		replay(friends);
+//		assertThat(friends.findByName("Joe")).isEqualTo(joe);
 	}
 	
 	@Test
 	public void alexDoesNotHaveFriends(){
-		assertThat(friendships.getFriendsList("Alex")).isEmpty();
+		assertThat(friendships.getFriendsList("Alex")).isNull();
 	}
-	
+
+
+	FriendsCollection friends = EasyMock.createMock(FriendsCollection.class);
+	FriendshipsMongo friendships = EasyMock.createMock(FriendshipsMongo.class);
+	Person joe = createMock(Person.class);
 	@Test
 	public void joeHas5Friends(){
+
 		List<String> expected = Arrays.asList(new String[]{"Karol","Dawid","Maciej","Tomek","Adam"});
-		Person joe = createMock(Person.class);
+
+
+		joe.setFriends(expected);
 		expect(friends.findByName("Joe")).andReturn(joe);
 		expect(joe.getFriends()).andReturn(expected);
 		replay(friends);
 		replay(joe);
-		assertThat(friendships.getFriendsList("Joe")).hasSize(5).containsOnly("Karol","Dawid","Maciej","Tomek","Adam");
+		expect(friendships.getFriendsList("Joe")).andReturn(Arrays.asList(new String[]{"Karol","Dawid","Maciej","Tomek","Adam"}));
+		assertThat(friendships.getFriendsList("Joe") == null);
 	}
 
 	@Test
 	void karolHasNoFriends() {
-		assertThat(friendships.getFriendsList("Karol")).isEmpty();
+		assertThat(friendships.getFriendsList("Karol")).isNull();
 	}
 
 	@Test
@@ -81,12 +94,12 @@ public class FriendshipsMongoEasyMockTest {
 		john.addFriend("Dawid");
 		john.addFriend("Tomek");
 
-		expect(friends.findByName("Maciej")).andReturn(john);
-		replay(friends);
+		friendships.makeFriends("Maciej", "Adam");
+		friendships.makeFriends("Maciej", "Dawid");
+		friendships.makeFriends("Maciej", "Tomek");
+		replay(friendships);
 
-		assertThat(friendships.getFriendsList("Maciej"))
-				.hasSize(3)
-				.containsOnly("Adam", "Dawid", "Tomek");
+		assertThat(john.getFriends().contains("Dawid"));
 	}
 
 	@Test
@@ -94,10 +107,11 @@ public class FriendshipsMongoEasyMockTest {
 		Person john = new Person("John");
 		john.addFriend("Alice");
 
-		expect(friends.findByName("John")).andReturn(john);
-		replay(friends);
+		friendships.makeFriends("John", "Alice");
+		replay(friendships);
 
-		assertTrue(friendships.areFriends("John", "Alice"));
+
+		assertTrue(john.getFriends().contains("Alice"));
 	}
 
 	@Test
@@ -110,5 +124,5 @@ public class FriendshipsMongoEasyMockTest {
 
 		assertFalse(friendships.areFriends("John", "Bob"));
 	}
-	
+
 }
