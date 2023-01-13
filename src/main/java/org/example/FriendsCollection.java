@@ -2,6 +2,7 @@ package org.example;
 
 import java.rmi.UnknownHostException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -20,7 +21,7 @@ public class FriendsCollection{
 
     public Person findByName(String name){
         //return friends.findOne("{_id: #", name).as(Person.class);
-        List<Person> coll = friends.get(name).stream().toList();
+        List<Person> coll = friends.get(name).stream().collect(Collectors.toList());
 
         Person person;
         if (coll.size() == 1)
